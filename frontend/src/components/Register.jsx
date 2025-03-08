@@ -20,12 +20,10 @@ const Register = () => {
         body: JSON.stringify({ email, contraseña }),
       });
       const data = await response.json();
-      if (data.token) {
-        login(data.token); // Almacena el token en el contexto
-        navigate("/alumnos"); // Redirige a la página de alumnos
-      } else {
-        alert("Login failed");
-      }
+      console.log("se registro?", data);
+     
+      alert(data.message);
+       navigate("/login");
     } catch (error) {
       console.error("Error during login:", error);
     }

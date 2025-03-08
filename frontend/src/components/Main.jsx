@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { IconLogout } from "../assets/GlobalIcons";
 
 const Main = () => {
   return (
@@ -15,9 +16,11 @@ const Main = () => {
         <Link to="/alumnos" style={styles.navItem}>
           <button style={styles.menuButton}>Alumnos</button>
         </Link>
-      </nav>
 
-     
+        <Link to="/Login" style={styles.navItem}>
+          <IconLogout />
+        </Link>
+      </nav>
     </div>
   );
 };
@@ -25,12 +28,15 @@ const Main = () => {
 const styles = {
   navbar: {
     display: "flex",
-    justifyContent: "center", // Centra los botones horizontalmente
+    justifyContent: "flex-end", // Alinea los botones a la derecha
     alignItems: "center", // Centra verticalmente
-    backgroundColor: "#4a90e2",
+    backgroundColor: "#1a1f3e",
     padding: "15px 0",
     width: "100%", // Asegura que la navbar ocupe todo el ancho
-  
+    position: "fixed", // Fija la navbar al principio de la página
+    top: 0,
+    left: 0,
+    zIndex: 10, // Asegura que la navbar esté por encima de otros elementos
   },
   navItem: {
     margin: "0 15px", // Espacio entre los botones
@@ -39,14 +45,14 @@ const styles = {
     padding: "10px 20px",
     fontSize: "1rem",
     fontWeight: "bold",
-    backgroundColor: "#ffffff",
-    color: "#4a90e2",
-    border: "2px solid #4a90e2",
+    backgroundColor: "#1d4ed8",
+    color: "#ffffff",
+    border: "2px solid #242424",
     borderRadius: "5px",
     cursor: "pointer",
     transition: "all 0.3s",
   },
-
 };
 
 export default Main;
+

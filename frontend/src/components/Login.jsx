@@ -18,15 +18,15 @@ const Login = () => {
         },
         body: JSON.stringify({ email, contraseña }),
       });
-       console.log("sdfghjkdfghj",response);
+    
       const data = await response.json();
-      console.log("dataaaaaaaaaaaaaaaa", data);
+   
       if (data?.token) {
         localStorage.setItem("token", data.token); // Guarda el token en localStorage
         login(data?.token); // Almacena el token en el contexto
         navigate("/alumnos"); // Redirige a la página de alumnos
       } else {
-        alert("Login failed");
+        alert("Usuario no encontrado. Debes registrarte");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -46,9 +46,27 @@ const Login = () => {
         width: "100%",
       }}
     >
-      <Link to="/" >
-        <span>Inicio</span>
-      </Link>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <Link
+          to="/"
+          style={{ fontSize: "15px",  }}
+        >
+          <span>Menu</span>
+        </Link>
+        <Link
+          to="/register"
+          style={{ fontSize: "15px", }}
+        >
+          <span>Register</span>
+        </Link>
+      </div>
+
       <p
         style={{
           fontSize: "24px",
