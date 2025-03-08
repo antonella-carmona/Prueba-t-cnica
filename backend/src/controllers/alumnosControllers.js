@@ -1,24 +1,8 @@
 //Define las funciones que manejan las peticiones y responden con datos.
 
-// controllers/alumnosController.js
 const pool = require("../config/db");
 
-// Crear un nuevo alumno
-// const createAlumno = async (req, res) => {
-//   const { nombre, apellido, correo, fecha_nacimiento } = req.body;
 
-//   try {
-//     const result = await pool.query(
-//       "INSERT INTO alumnos (nombre, apellido, correo, fecha_nacimiento) VALUES ($1, $2, $3, $4) RETURNING *",
-//       [nombre, apellido, correo, fecha_nacimiento]
-//     );
-//     res.status(201).json(result.rows[0]);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Error al crear alumno" });
-//   }
-// };
-// controllers/alumnosController.js
 const createAlumno = async (req, res) => {
   const { nombre, apellido, correo, fecha_nacimiento } = req.body;
 
