@@ -1,49 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { ButtonCloseIcon } from "../../assets/GlobalIcons";
 
-const EditAlumnos = () => {
-  const [correo, setCorreo] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [fecha_nacimiento, setFechaNacimiento] = useState("");
+const EditAlumnos = ({ alumnoObject, id, close, refetchAlumnos }) => {
+  const [correo, setCorreo] = useState(alumnoObject?.correo);
+  const [nombre, setNombre] = useState(alumnoObject?.nombre);
+  const [apellido, setApellido] = useState(alumnoObject?.apellido);
+  // const [fecha_nacimiento, setFechaNacimiento] = useState(alumnoObject?.fecha_nacimiento);
+  const [fecha_nacimiento, setFechaNacimiento] = useState(
+    alumnoObject?.fecha_nacimiento
+      ? alumnoObject.fecha_nacimiento.split("T")[0]
+      : ""
+  );
   const { auth } = useAuth();
   const [showPopup, setShowPopup] = useState(false);
 
-  // Obtener el ID del alumno desde los parámetros de la URL
-  const { id } = useParams();
-   const navigate = useNavigate();
-console.log("id", id);
-  useEffect(() => {
-    // Función para cargar los datos del alumno por ID
-    const cargarAlumno = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/alumnos/${id}`, {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        });
-        if (!response.ok) {
-          console.error(
-            "Error al cargar los datos del alumno:",
-            response.status
-          );
-          return;
-        }
-        const data = await response.json();
-        setNombre(data.nombre);
-        setApellido(data.apellido);
-        setCorreo(data.correo);
-        setFechaNacimiento(data.fecha_nacimiento);
-      } catch (error) {
-        console.error("Error en la carga de datos:", error);
-      }
-    };
+  console.log("alumnoObject", alumnoObject);
+  console.log("id", id);
 
-    cargarAlumno();
-  }, [id, auth.token]);
 
-  const actualizarAlumno = async (updatedAlumno) => {
+  const actualizarAlumno = async (alumnoObject) => {
     try {
       const response = await fetch(`http://localhost:3000/alumnos/${id}`, {
         method: "PUT", // Usamos PUT para actualizar
@@ -51,7 +27,7 @@ console.log("id", id);
           Authorization: `Bearer ${auth.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedAlumno),
+        body: JSON.stringify(alumnoObject),
       });
 
       if (!response.ok) {
@@ -60,18 +36,30 @@ console.log("id", id);
       }
 
       const data = await response.json();
+      console.log("dataaaaaaaaaaaaaaa chavo:", data);
       setShowPopup(true);
 
-      // Redirigir a la lista de alumnos después de unos segundos
+      
       setTimeout(() => {
         setShowPopup(false);
-        // history.push("/todos_los_alumnos"); // Redirige a la lista de alumnos
-        navigate("/todos_los_alumnos");
       }, 3000);
+      refetchAlumnos()
     } catch (error) {
       console.error("Error en la petición:", error);
     }
   };
+
+  useEffect(() => {
+    setCorreo(alumnoObject?.correo);
+    setNombre(alumnoObject?.nombre);
+    setApellido(alumnoObject?.apellido);
+    setFechaNacimiento(
+      alumnoObject?.fecha_nacimiento
+        ? alumnoObject.fecha_nacimiento.split("T")[0]
+        : ""
+    );
+    
+  }, [alumnoObject]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,6 +87,12 @@ console.log("id", id);
         width: "100%",
       }}
     >
+      <span
+        onClick={() => close(false)}
+        style={{ marginLeft: "10px", cursor: "pointer" }}
+      >
+        <ButtonCloseIcon />
+      </span>
       <h2 style={{ color: "white", textAlign: "center" }}>Editar Alumno</h2>
 
       {/* Popup de éxito */}
