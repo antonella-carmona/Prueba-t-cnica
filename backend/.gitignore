@@ -1,0 +1,7 @@
+# Ignorar el archivo .env
+.env
+
+# Otros archivos o carpetas comunes que se pueden ignorar
+node_modules/
+dist/
+*.log
